@@ -33,7 +33,7 @@ const adminSchema = new Schema(
   }
 );
 
-adinSchema.pre("save", async function (next) {
+adminSchema.pre("save", async function (next) {
   if(!this.isModified("password"))
   {
     return next();
@@ -42,12 +42,12 @@ adinSchema.pre("save", async function (next) {
   next();
 })
 
-adinSchema.methods.isPasswordCorrect = async function (password)
+adminSchema.methods.isPasswordCorrect = async function (password)
 {
   return await bcrypt.compare(password, this.password)
 }
 
-adinSchema.methods.generateAccessToken = function(){
+adminSchema.methods.generateAccessToken = function(){
   return jwt.sign(
     {
       _id: this._id,
@@ -62,7 +62,7 @@ adinSchema.methods.generateAccessToken = function(){
   )
 }
 
-userSchema.methods.generateRefreshToken = function(){
+adminSchema.methods.generateRefreshToken = function(){
   return jwt.sign(
     {
       _id: this._id, 
